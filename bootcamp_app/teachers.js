@@ -5,8 +5,8 @@ const pool = new Pool({
   host: 'localhost',
   database: 'bootcampx'
 });
-
-
+const userinput = process.argv[2];
+const value =[`${userinput || 'JUL02'}`]
 
 
 
@@ -18,9 +18,9 @@ FROM teachers
 JOIN assistance_requests ON teacher_id = teachers.id
 JOIN students ON student_id = students.id
 JOIN cohorts ON cohort_id = cohorts.id
-WHERE cohorts.name = '${process.argv[2] || 'JUL02'}'
+WHERE cohorts.name = $1
 ORDER BY teacher;
-`)
+`,value)
 .then(res => {
   res.rows.forEach(row => {
     console.log(`${row.cohort}: ${row.teacher}`);
